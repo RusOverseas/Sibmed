@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALS/BLS/ECG Training Workshop</title>
+    <title>ALS/BLS/ECG Training Workshop - Siberian State Medical University</title>
     <style>
         * {
             margin: 0;
@@ -12,245 +12,153 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f172a;
-            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .slide {
-            width: 960px;
-            height: 540px;
-            margin: 0 auto 20px;
-            display: flex;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .slide-content {
+            position: absolute;
             width: 100%;
             height: 100%;
-            display: flex;
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 40px;
             text-align: center;
-            padding: 4rem;
-            position: relative;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Slide Layouts */
-        .col {
-            flex-direction: column;
+        .slide.active {
+            display: flex !important;
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .row {
-            flex-direction: row;
-            align-items: center;
+        .slide.prev {
+            transform: translateX(-100%);
         }
 
-        .center {
-            justify-content: center;
-            align-items: center;
-        }
-
-        .space-between {
-            justify-content: space-between;
-        }
-
-        .items-start {
-            align-items: flex-start;
-        }
-
-        .fill-width {
-            flex: 1;
-            width: 100%;
-        }
-
-        .gap-lg {
-            gap: 2rem;
-        }
-
-        .gap-md {
-            gap: 1rem;
-        }
-
-        /* Color Theme - Dark */
-        .theme-dark {
-            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-            color: #f1f5f9;
-        }
-
-        .theme-dark-alt {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #f1f5f9;
-        }
-
-        .theme-accent {
-            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-            color: #ffffff;
-        }
-
-        /* Typography */
         h1 {
-            font-size: 3.75rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin: 0 0 1.5rem 0;
-            letter-spacing: -0.02em;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
         h2 {
-            font-size: 2.25rem;
-            font-weight: 600;
-            line-height: 1.3;
-            margin: 0 0 1rem 0;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 30px;
+            color: #4ecdc4;
         }
 
-        h3 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            line-height: 1.3;
-            margin: 0 0 0.75rem 0;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 40px 0;
         }
 
-        p {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin: 0;
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
-        .text-lg {
-            font-size: 1.125rem;
-            line-height: 1.8;
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .text-sm {
-            font-size: 0.875rem;
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
-        /* Accent Colors */
-        .text-accent {
-            color: #38bdf8;
+        .trainer-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 40px 0;
+            align-items: center;
         }
 
-        .text-success {
-            color: #38bdf8;
+        .trainer-image {
+            width: 250px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 3px solid #4ecdc4;
         }
 
-        .text-muted {
-            color: #94a3b8;
+        .trainer-books {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
-        /* Spacing */
-        .mb-4 {
-            margin-bottom: 1rem;
+        .book-image {
+            width: 120px;
+            height: 160px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
         }
 
-        .mb-6 {
-            margin-bottom: 1.5rem;
+        .book-image:hover {
+            transform: scale(1.05);
         }
 
-        .mb-8 {
-            margin-bottom: 2rem;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .mt-6 {
-            margin-top: 1.5rem;
-        }
-
-        .mt-8 {
-            margin-top: 2rem;
-        }
-
-        /* List Styles */
-        ul {
-            list-style: none;
-            margin: 1rem 0;
-            padding: 0;
-        }
-
-        ul li {
-            margin: 0.75rem 0;
-            font-size: 1.125rem;
-            line-height: 1.6;
-        }
-
-        ul li:before {
-            content: "✓ ";
-            color: #38bdf8;
-            font-weight: bold;
-            margin-right: 0.75rem;
-        }
-
-        /* Card Styles */
-        .card {
-            background-color: #1e293b;
-            padding: 2rem;
-            border-radius: 0;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            flex: 1;
-        }
-
-        .card h3 {
-            color: #38bdf8;
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            color: #cbd5e1;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        /* Badge/Highlights */
-        .badge {
-            display: inline-block;
-            background-color: rgba(56, 189, 248, 0.2);
-            color: #38bdf8;
-            padding: 0.5rem 1rem;
-            border-radius: 0;
-            font-weight: 600;
-            font-size: 0.875rem;
-            margin: 0.5rem;
-        }
-
-        /* Navigation */
-        .nav-container {
+        .nav-controls {
             position: fixed;
             bottom: 30px;
-            right: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            gap: 1rem;
-            z-index: 100;
+            gap: 20px;
+            z-index: 1000;
         }
 
         .nav-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #38bdf8;
-            color: #0f172a;
+            background: rgba(255,255,255,0.2);
             border: none;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .nav-btn:hover {
-            background-color: #0284c7;
-            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
 
         .nav-btn:disabled {
@@ -258,392 +166,337 @@
             cursor: not-allowed;
         }
 
-        /* Slide Counter */
         .slide-counter {
             position: fixed;
-            bottom: 30px;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .university-logo {
+            position: fixed;
+            top: 30px;
             left: 30px;
-            color: #94a3b8;
-            font-size: 0.875rem;
-            z-index: 100;
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            object-fit: cover;
+            z-index: 1000;
         }
 
-        /* Icon Styles */
-        .icon-large {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        ul {
+            list-style: none;
+            padding: 0;
         }
 
-        /* Grid for Cards */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-
-        .grid-3 {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-
-        /* Separator */
-        .divider {
-            width: 100px;
-            height: 3px;
-            background-color: #38bdf8;
-            margin: 1rem auto;
-        }
-
-        /* Key Features Box */
-        .feature-box {
-            background-color: rgba(56, 189, 248, 0.1);
-            border-left: 4px solid #38bdf8;
-            padding: 1.5rem;
-            margin: 1rem 0;
+        ul li {
+            background: rgba(255,255,255,0.1);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid #4ecdc4;
             text-align: left;
-            color: #cbd5e1;
+            transition: all 0.3s ease;
         }
 
-        .feature-box p {
-            margin: 0;
-            font-size: 1rem;
+        ul li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        /* Trainer Section */
-        .trainer-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .trainer-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #38bdf8;
-        }
-
-        .trainer-title {
-            font-size: 1rem;
-            color: #94a3b8;
-        }
-
-        /* Module Grid */
-        .module-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.5rem;
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-
-        .module-card {
-            background-color: #1e293b;
-            padding: 1.5rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .module-card h3 {
-            color: #38bdf8;
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .module-card ul li {
-            font-size: 0.95rem;
-            margin: 0.5rem 0;
-            text-align: left;
-        }
-
-        /* Footer */
-        .footer {
-            position: absolute;
-            bottom: 1rem;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            h1 {
-                font-size: 2.5rem;
+        @media (max-width: 768px) {
+            .trainer-section {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
-            h2 {
-                font-size: 1.75rem;
+            
+            .features-grid {
+                grid-template-columns: 1fr;
             }
-            p {
-                font-size: 1rem;
-            }
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(78,205,196,0.4);
         }
     </style>
 </head>
 <body>
-
-    <!-- SLIDE 1: Title Slide -->
-    <div class="slide">
-        <div class="slide-content theme-accent col center">
-            <div class="icon-large">🚑</div>
-            <h1>ALS • BLS • ECG</h1>
-            <h2 style="font-size: 1.75rem; margin-top: 1rem;">Training Workshop</h2>
-            <p class="text-lg mt-6">Hands-On Emergency Medicine Training</p>
-            <p class="text-lg" style="font-size: 1rem; margin-top: 0.5rem;">International Certification Included</p>
-            <div class="divider" style="background-color: #ffffff; margin-top: 2rem;"></div>
-            <p class="text-sm mt-6">Siberian State Medical University</p>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <img src="https://ssmu.ru/assets/images/logo.png" alt="Siberian State Medical University" class="university-logo">
+            <h1>🚑 ALS • BLS • ECG</h1>
+            <h1>TRAINING WORKSHOP 🏥</h1>
+            <h2>Hands-On Emergency Medicine Training</h2>
+            <p style="font-size: 1.5rem; max-width: 800px; line-height: 1.6;">
+                FREE Workshop for Medical Students<br>
+                Conducted by International Medical Educator
+            </p>
         </div>
-    </div>
 
-    <!-- SLIDE 2: What You'll Learn -->
-    <div class="slide">
-        <div class="slide-content theme-dark col">
-            <h2 class="text-accent mb-8">What You'll Learn</h2>
-            <div class="grid-3" style="margin-top: 1rem;">
-                <div class="card">
-                    <div class="icon-large">❤️</div>
-                    <h3>BLS Certification</h3>
-                    <p>CPR techniques, Airway management & AED operation</p>
+        <!-- Slide 2: What You'll Learn -->
+        <div class="slide" data-slide="2">
+            <h1>Three Essential Skills</h1>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🫁</div>
+                    <h3>Basic Life Support (BLS)</h3>
+                    <p>High-Quality CPR • Airway Management • AED Operation</p>
                 </div>
-                <div class="card">
-                    <div class="icon-large">⚡</div>
-                    <h3>ALS Certification</h3>
-                    <p>Advanced algorithms, Emergency medications & Team dynamics</p>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Advanced Life Support (ALS)</h3>
+                    <p>Cardiac Arrest Management • Team Dynamics • Emergency Protocols</p>
                 </div>
-                <div class="card">
-                    <div class="icon-large">📊</div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
                     <h3>ECG Interpretation</h3>
-                    <p>Rhythm recognition, Clinical cases & Arrhythmia analysis</p>
+                    <p>Rhythm Recognition • Arrhythmia Analysis • Clinical Cases</p>
                 </div>
             </div>
-            <p class="text-muted mt-8" style="font-size: 0.9rem;">All three certifications awarded upon completion</p>
         </div>
-    </div>
 
-    <!-- SLIDE 3: Key Features -->
-    <div class="slide">
-        <div class="slide-content theme-dark col items-start">
-            <h2 class="text-accent mb-6">Why Attend This Workshop?</h2>
-            <div style="width: 100%; padding: 0 2rem;">
-                <ul style="text-align: left;">
-                    <li><strong style="color: #38bdf8;">100% FREE</strong> – Zero cost for all students</li>
-                    <li><strong style="color: #38bdf8;">INTERNATIONAL CERTIFICATION</strong> – Recognized credentials worldwide</li>
-                    <li><strong style="color: #38bdf8;">HANDS-ON TRAINING</strong> – Practice with real mannequins</li>
-                    <li><strong style="color: #38bdf8;">EXPERT TRAINER</strong> – Dr. Sawan Kumar, MD (International Medical Educator)</li>
-                    <li><strong style="color: #38bdf8;">FOR ALL STUDENTS</strong> – Year 1-6, Interns & Residents welcome</li>
-                </ul>
+        <!-- Slide 3: Why Attend -->
+        <div class="slide" data-slide="3">
+            <h1>Why You Should Attend</h1>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>FREE Workshop</h3>
+                    <p>Zero Cost for Students & University</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👐</div>
+                    <h3>Hands-On Training</h3>
+                    <p>Practical Mannequin Practice & Real-Time Feedback</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>All Students Welcome</h3>
+                    <p>Year 1-6 Medical Students - No Prerequisites</p>
+                </div>
             </div>
-            <div class="divider" style="margin-top: 2rem;"></div>
         </div>
-    </div>
 
-    <!-- SLIDE 4: About the Trainer -->
-    <div class="slide">
-        <div class="slide-content theme-dark-alt col center">
-            <h2 class="text-accent mb-8">Meet Your Trainer</h2>
+        <!-- Slide 4: Meet Your Trainer -->
+        <div class="slide" data-slide="4">
+            <h1>Meet Your Trainer</h1>
             <div class="trainer-section">
-                <div class="icon-large">👨‍⚕️</div>
-                <p class="trainer-name">Dr. Sawan Kumar, MD</p>
-                <p class="trainer-title">General Medicine | International Medical Educator</p>
-                <div class="divider"></div>
-                <ul style="text-align: center; list-style: none; padding: 0;">
-                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Specialized in Emergency Medicine & BLS/ALS Training</li>
-                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Author of 4 Influential Medical Textbooks</li>
-                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ ICU & Emergency Medicine Experience</li>
-                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Successfully Conducted Workshops at Multiple Universities</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- SLIDE 5: Workshop Modules -->
-    <div class="slide">
-        <div class="slide-content theme-dark col">
-            <h2 class="text-accent mb-6">Three Core Modules</h2>
-            <div class="module-grid">
-                <div class="module-card">
-                    <h3>Module 1</h3>
-                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">Basic Life Support</p>
-                    <ul style="text-align: left;">
-                        <li>Chain of Survival</li>
-                        <li>High-Quality CPR</li>
-                        <li>Airway Management</li>
-                        <li>AED Operation</li>
-                    </ul>
-                </div>
-                <div class="module-card">
-                    <h3>Module 2</h3>
-                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">Advanced Life Support</p>
-                    <ul style="text-align: left;">
-                        <li>Cardiac Algorithms</li>
-                        <li>ECG Recognition</li>
-                        <li>Emergency Meds</li>
-                        <li>Team Dynamics</li>
-                    </ul>
-                </div>
-                <div class="module-card">
-                    <h3>Module 3</h3>
-                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">ECG Interpretation</p>
-                    <ul style="text-align: left;">
-                        <li>ECG Basics</li>
-                        <li>Arrhythmia ID</li>
-                        <li>ACS Patterns</li>
-                        <li>Clinical Cases</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SLIDE 6: Who Can Join -->
-    <div class="slide">
-        <div class="slide-content theme-dark col center">
-            <h2 class="text-accent mb-8">Who Can Participate?</h2>
-            <div class="grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 0 auto;">
-                <div style="text-align: center;">
-                    <div class="icon-large">🎓</div>
-                    <h3 style="font-size: 1.5rem; color: #f1f5f9; margin-bottom: 0.5rem;">Medical Students</h3>
-                    <p style="color: #cbd5e1; font-size: 1rem;">Year 1 to Year 6</p>
-                </div>
-                <div style="text-align: center;">
-                    <div class="icon-large">👨‍⚕️</div>
-                    <h3 style="font-size: 1.5rem; color: #f1f5f9; margin-bottom: 0.5rem;">Healthcare Professionals</h3>
-                    <p style="color: #cbd5e1; font-size: 1rem;">Interns & Junior Residents</p>
-                </div>
-            </div>
-            <p class="text-success mt-8" style="font-size: 1.1rem;">✓ No Prerequisites Required</p>
-            <p class="text-success" style="font-size: 1rem; margin-top: 0.5rem;">✓ All Participants Welcome</p>
-        </div>
-    </div>
-
-    <!-- SLIDE 7: What You Get -->
-    <div class="slide">
-        <div class="slide-content theme-dark-alt col">
-            <h2 class="text-accent mb-8">What You'll Receive</h2>
-            <div class="grid" style="grid-template-columns: 1fr 1fr; max-width: 800px; margin: 0 auto;">
-                <div class="feature-box">
-                    <p><strong>📜 International Certification</strong></p>
-                    <p style="margin-top: 0.5rem;">BLS/ALS/ECG credentials recognized worldwide</p>
-                </div>
-                <div class="feature-box">
-                    <p><strong>💼 Professional Certificate</strong></p>
-                    <p style="margin-top: 0.5rem;">Boost your CV and career advancement</p>
-                </div>
-                <div class="feature-box">
-                    <p><strong>🎯 Emergency Skills</strong></p>
-                    <p style="margin-top: 0.5rem;">Practical, life-saving medical knowledge</p>
-                </div>
-                <div class="feature-box">
-                    <p><strong>📚 Study Materials</strong></p>
-                    <p style="margin-top: 0.5rem;">Reference guides & learning resources</p>
-                </div>
-            </div>
-            <p class="text-muted mt-6" style="font-size: 0.9rem;">+ Networking with Medical Professionals</p>
-        </div>
-    </div>
-
-    <!-- SLIDE 8: Important Details -->
-    <div class="slide">
-        <div class="slide-content theme-dark col center">
-            <h2 class="text-accent mb-8">Workshop Details</h2>
-            <div style="background-color: #1e293b; padding: 3rem; width: 90%; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);">
-                <div class="mb-6">
-                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">📍 Location</h3>
-                    <p style="color: #cbd5e1; font-size: 1.25rem;">Siberian State Medical University</p>
-                </div>
-                <div class="mb-6">
-                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">⏰ Schedule</h3>
-                    <p style="color: #cbd5e1; font-size: 1.25rem;">Date & Time To Be Announced</p>
+                <div>
+                    <img src="dr-sawan-photo.jpg" alt="Dr. Sawan Kumar" class="trainer-image">
                 </div>
                 <div>
-                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">💰 Cost</h3>
-                    <p style="color: #38bdf8; font-size: 1.5rem; font-weight: 600;">100% FREE FOR ALL STUDENTS</p>
+                    <h2>Dr. Sawan Kumar, MD</h2>
+                    <p style="font-size: 1.3rem; margin-bottom: 20px;">
+                        <strong>International Medical Educator</strong><br>
+                        Specialized in Emergency Medicine Training
+                    </p>
+                    <ul>
+                        <li>Author of 4 Medical Textbooks</li>
+                        <li>ICU & Emergency Medicine Experience</li>
+                        <li>Workshops at Multiple Universities</li>
+                        <li>Hands-On Training Specialist</li>
+                    </ul>
+                    <div class="trainer-books">
+                        <img src="book1.jpg" alt="Medical Book 1" class="book-image">
+                        <img src="book2.jpg" alt="Medical Book 2" class="book-image">
+                        <img src="book3.jpg" alt="Medical Book 3" class="book-image">
+                        <img src="book4.jpg" alt="Medical Book 4" class="book-image">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 9: Call to Action -->
-    <div class="slide">
-        <div class="slide-content theme-accent col center">
-            <h1 style="margin-bottom: 2rem;">Stay Tuned!</h1>
-            <div class="divider" style="background-color: #ffffff; margin-bottom: 2rem;"></div>
-            <h2 style="color: #ffffff; margin-bottom: 2rem;">Updates Coming Soon</h2>
-            <ul style="text-align: center; list-style: none; padding: 0; margin-bottom: 2rem;">
-                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📢 Follow Official SibMed Channels</li>
-                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📧 Check Your Email for Announcements</li>
-                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📱 Share with Your Classmates</li>
-            </ul>
-            <p class="text-lg" style="color: #ffffff; margin-top: 2rem;">Don't Miss This Opportunity!</p>
-        </div>
-    </div>
-
-    <!-- SLIDE 10: Contact & Partners -->
-    <div class="slide">
-        <div class="slide-content theme-dark col center">
-            <h2 class="text-accent mb-8">Organized By</h2>
-            <div style="text-align: center; margin: 2rem 0;">
-                <h3 style="color: #f1f5f9; font-size: 1.75rem; margin-bottom: 1.5rem;">Siberian State Medical University</h3>
-                <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 0.5rem;">In Partnership with</p>
-                <h3 style="color: #38bdf8; font-size: 1.5rem;">Rus Overseas</h3>
-                <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 1rem;">Authorized Medical Education Partner</p>
+        <!-- Slide 5: Workshop Modules -->
+        <div class="slide" data-slide="5">
+            <h1>Workshop Structure</h1>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1100px;">
+                <div class="highlight-box">
+                    <h3>🫁 Module 1: BLS (2 hours)</h3>
+                    <ul>
+                        <li>Chain of Survival</li>
+                        <li>High-Quality CPR Techniques</li>
+                        <li>Airway Management</li>
+                        <li>AED Operation Practice</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>⚡ Module 2: ALS (2 hours)</h3>
+                    <ul>
+                        <li>Cardiac Arrest Algorithms</li>
+                        <li>ECG Rhythm Recognition</li>
+                        <li>Emergency Medications</li>
+                        <li>Team Dynamics Simulation</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>📈 Module 3: ECG (2 hours)</h3>
+                    <ul>
+                        <li>ECG Basics & Analysis</li>
+                        <li>Arrhythmia Recognition</li>
+                        <li>Acute Coronary Patterns</li>
+                        <li>Clinical Case Studies</li>
+                    </ul>
+                </div>
             </div>
-            <div class="divider" style="margin-top: 2rem;"></div>
-            <p class="text-muted mt-6" style="font-size: 0.95rem;">For more information, contact your academic department</p>
         </div>
-    </div>
 
-    <!-- Navigation -->
-    <div class="slide-counter">
-        <span id="current-slide">1</span> / <span id="total-slides">10</span>
-    </div>
+        <!-- Slide 6: Who Can Participate -->
+        <div class="slide" data-slide="6">
+            <h1>Who Can Join?</h1>
+            <div style="font-size: 2rem; margin: 50px 0;">
+                <div style="background: rgba(255,255,255,0.15); padding: 40px; border-radius: 25px; backdrop-filter: blur(10px); max-width: 700px;">
+                    🎓 <strong>Medical Students Only</strong><br><br>
+                    <span style="font-size: 1.4rem;">
+                        Year 1 to Year 6<br>
+                        <strong>ALL WELCOME - NO PREREQUISITES</strong>
+                    </span>
+                </div>
+            </div>
+            <p style="font-size: 1.3rem; max-width: 800px;">
+                Perfect opportunity to gain practical emergency medicine skills!
+            </p>
+        </div>
 
-    <div class="nav-container">
-        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">❮</button>
-        <button class="nav-btn" id="next-btn" onclick="nextSlide()">❯</button>
+        <!-- Slide 7: What You'll Gain -->
+        <div class="slide" data-slide="7">
+            <h1>What You'll Gain</h1>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Practical Skills</h3>
+                    <p>Real emergency medicine skills you'll use throughout your career</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Study Materials</h3>
+                    <p>Reference guides and training manuals</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Networking</h3>
+                    <p>Connect with medical professionals and peers</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Schedule -->
+        <div class="slide" data-slide="8">
+            <h1>⏰ Workshop Details</h1>
+            <div class="highlight-box" style="max-width: 700px; font-size: 1.4rem;">
+                <h3 style="margin-bottom: 25px;">📍 Siberian State Medical University</h3>
+                <h3 style="margin-bottom: 25px;">⏰ Full Day Workshop (6 Hours)</h3>
+                <h3 style="color: #ffeb3b; font-size: 2rem;">💰 COMPLETELY FREE</h3>
+                <p style="margin-top: 30px; font-size: 1.3rem;">
+                    <strong>Date & Exact Time: Coming Soon!</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Call to Action -->
+        <div class="slide" data-slide="9">
+            <h1>Don't Miss This!</h1>
+            <div style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); padding: 60px 40px; border-radius: 30px; max-width: 800px; box-shadow: 0 25px 50px rgba(255,107,107,0.4);">
+                <h2 style="color: white; margin-bottom: 25px; font-size: 3rem;">🚨 LIMITED SEATS</h2>
+                <p style="font-size: 1.6rem; line-height: 1.5; margin-bottom: 40px;">
+                    Gain life-saving skills!<br>
+                    FREE hands-on emergency medicine training<br>
+                    Conducted by experienced international trainer
+                </p>
+                <h3 style="font-size: 2.5rem; margin-bottom: 20px;">👉 TELL YOUR CLASSMATES!</h3>
+            </div>
+        </div>
+
+        <!-- Slide 10: Partners -->
+        <div class="slide" data-slide="10">
+            <h1>Organized By</h1>
+            <div style="display: flex; gap: 60px; justify-content: center; align-items: center; flex-wrap: wrap; max-width: 1000px;">
+                <div style="text-align: center;">
+                    <h2>Siberian State Medical University</h2>
+                    <img src="ssmu-building.jpg" alt="Siberian State Medical University" style="width: 300px; height: 200px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);">
+                </div>
+                <div style="text-align: center;">
+                    <h2>In Partnership With</h2>
+                    <h3>Rus Overseas</h3>
+                    <p>Authorized Medical Education Partner</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-counter" id="slideCounter">1 / 10</div>
+        <div class="nav-controls">
+            <button class="nav-btn" id="prevBtn" disabled>← Previous</button>
+            <button class="nav-btn" id="nextBtn">Next →</button>
+        </div>
     </div>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
+        let currentSlide = 1;
+        const totalSlides = 10;
 
-        document.getElementById('total-slides').textContent = totalSlides;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
 
         function showSlide(n) {
-            slides.forEach(slide => slide.style.display = 'none');
-            
-            if (n >= totalSlides) currentSlide = totalSlides - 1;
-            if (n < 0) currentSlide = 0;
-            
-            slides[currentSlide].style.display = 'flex';
-            document.getElementById('current-slide').textContent = currentSlide + 1;
-            
-            // Update button states
-            document.getElementById('prev-btn').disabled = currentSlide === 0;
-            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'prev');
+            });
+
+            slides[currentSlide - 1].classList.add('active');
+            if (currentSlide > 1) {
+                slides[currentSlide - 2].classList.add('prev');
+            }
+
+            updateButtons();
+            slideCounter.textContent = `${currentSlide} / ${totalSlides}`;
         }
 
         function nextSlide() {
-            currentSlide++;
-            showSlide(currentSlide);
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
         }
 
-        function previousSlide() {
-            currentSlide--;
-            showSlide(currentSlide);
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
         }
 
-        // Keyboard navigation
+        function updateButtons() {
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.textContent = currentSlide === totalSlides ? 'Finish' : 'Next →';
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextSlide();
-            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
         });
 
-        // Initialize
-        showSlide(0);
-    </script>
+        // Auto-advance every 8 seconds (optional - can be disabled)
+        // setInterval(() => {
+        //     if (currentSlide < totalSlides) nextSlide();
+        // }, 8000);
 
+        showSlide(1);
+    </script>
 </body>
 </html>
