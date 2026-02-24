@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALS/BLS/ECG Training Workshop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem;
+            position: relative;
+        }
+
+        /* Slide Layouts */
+        .col {
+            flex-direction: column;
+        }
+
+        .row {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .center {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
+        .items-start {
+            align-items: flex-start;
+        }
+
+        .fill-width {
+            flex: 1;
+            width: 100%;
+        }
+
+        .gap-lg {
+            gap: 2rem;
+        }
+
+        .gap-md {
+            gap: 1rem;
+        }
+
+        /* Color Theme - Dark */
+        .theme-dark {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            color: #f1f5f9;
+        }
+
+        .theme-dark-alt {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #f1f5f9;
+        }
+
+        .theme-accent {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #ffffff;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 0 0 1rem 0;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 0 0 0.75rem 0;
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        /* Accent Colors */
+        .text-accent {
+            color: #38bdf8;
+        }
+
+        .text-success {
+            color: #38bdf8;
+        }
+
+        .text-muted {
+            color: #94a3b8;
+        }
+
+        /* Spacing */
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-6 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        /* List Styles */
+        ul {
+            list-style: none;
+            margin: 1rem 0;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 0.75rem 0;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        ul li:before {
+            content: "✓ ";
+            color: #38bdf8;
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #1e293b;
+            padding: 2rem;
+            border-radius: 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            flex: 1;
+        }
+
+        .card h3 {
+            color: #38bdf8;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Badge/Highlights */
+        .badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin: 0.5rem;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .nav-btn:hover {
+            background-color: #0284c7;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            z-index: 100;
+        }
+
+        /* Icon Styles */
+        .icon-large {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Grid for Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        /* Separator */
+        .divider {
+            width: 100px;
+            height: 3px;
+            background-color: #38bdf8;
+            margin: 1rem auto;
+        }
+
+        /* Key Features Box */
+        .feature-box {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: left;
+            color: #cbd5e1;
+        }
+
+        .feature-box p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* Trainer Section */
+        .trainer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .trainer-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+
+        .trainer-title {
+            font-size: 1rem;
+            color: #94a3b8;
+        }
+
+        /* Module Grid */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .module-card {
+            background-color: #1e293b;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-card h3 {
+            color: #38bdf8;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-card ul li {
+            font-size: 0.95rem;
+            margin: 0.5rem 0;
+            text-align: left;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.75rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: Title Slide -->
+    <div class="slide">
+        <div class="slide-content theme-accent col center">
+            <div class="icon-large">🚑</div>
+            <h1>ALS • BLS • ECG</h1>
+            <h2 style="font-size: 1.75rem; margin-top: 1rem;">Training Workshop</h2>
+            <p class="text-lg mt-6">Hands-On Emergency Medicine Training</p>
+            <p class="text-lg" style="font-size: 1rem; margin-top: 0.5rem;">International Certification Included</p>
+            <div class="divider" style="background-color: #ffffff; margin-top: 2rem;"></div>
+            <p class="text-sm mt-6">Siberian State Medical University</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: What You'll Learn -->
+    <div class="slide">
+        <div class="slide-content theme-dark col">
+            <h2 class="text-accent mb-8">What You'll Learn</h2>
+            <div class="grid-3" style="margin-top: 1rem;">
+                <div class="card">
+                    <div class="icon-large">❤️</div>
+                    <h3>BLS Certification</h3>
+                    <p>CPR techniques, Airway management & AED operation</p>
+                </div>
+                <div class="card">
+                    <div class="icon-large">⚡</div>
+                    <h3>ALS Certification</h3>
+                    <p>Advanced algorithms, Emergency medications & Team dynamics</p>
+                </div>
+                <div class="card">
+                    <div class="icon-large">📊</div>
+                    <h3>ECG Interpretation</h3>
+                    <p>Rhythm recognition, Clinical cases & Arrhythmia analysis</p>
+                </div>
+            </div>
+            <p class="text-muted mt-8" style="font-size: 0.9rem;">All three certifications awarded upon completion</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Key Features -->
+    <div class="slide">
+        <div class="slide-content theme-dark col items-start">
+            <h2 class="text-accent mb-6">Why Attend This Workshop?</h2>
+            <div style="width: 100%; padding: 0 2rem;">
+                <ul style="text-align: left;">
+                    <li><strong style="color: #38bdf8;">100% FREE</strong> – Zero cost for all students</li>
+                    <li><strong style="color: #38bdf8;">INTERNATIONAL CERTIFICATION</strong> – Recognized credentials worldwide</li>
+                    <li><strong style="color: #38bdf8;">HANDS-ON TRAINING</strong> – Practice with real mannequins</li>
+                    <li><strong style="color: #38bdf8;">EXPERT TRAINER</strong> – Dr. Sawan Kumar, MD (International Medical Educator)</li>
+                    <li><strong style="color: #38bdf8;">FOR ALL STUDENTS</strong> – Year 1-6, Interns & Residents welcome</li>
+                </ul>
+            </div>
+            <div class="divider" style="margin-top: 2rem;"></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: About the Trainer -->
+    <div class="slide">
+        <div class="slide-content theme-dark-alt col center">
+            <h2 class="text-accent mb-8">Meet Your Trainer</h2>
+            <div class="trainer-section">
+                <div class="icon-large">👨‍⚕️</div>
+                <p class="trainer-name">Dr. Sawan Kumar, MD</p>
+                <p class="trainer-title">General Medicine | International Medical Educator</p>
+                <div class="divider"></div>
+                <ul style="text-align: center; list-style: none; padding: 0;">
+                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Specialized in Emergency Medicine & BLS/ALS Training</li>
+                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Author of 4 Influential Medical Textbooks</li>
+                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ ICU & Emergency Medicine Experience</li>
+                    <li style="margin: 0.5rem 0; color: #cbd5e1;">✓ Successfully Conducted Workshops at Multiple Universities</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Workshop Modules -->
+    <div class="slide">
+        <div class="slide-content theme-dark col">
+            <h2 class="text-accent mb-6">Three Core Modules</h2>
+            <div class="module-grid">
+                <div class="module-card">
+                    <h3>Module 1</h3>
+                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">Basic Life Support</p>
+                    <ul style="text-align: left;">
+                        <li>Chain of Survival</li>
+                        <li>High-Quality CPR</li>
+                        <li>Airway Management</li>
+                        <li>AED Operation</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3>Module 2</h3>
+                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">Advanced Life Support</p>
+                    <ul style="text-align: left;">
+                        <li>Cardiac Algorithms</li>
+                        <li>ECG Recognition</li>
+                        <li>Emergency Meds</li>
+                        <li>Team Dynamics</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3>Module 3</h3>
+                    <p style="color: #38bdf8; font-weight: 600; margin-bottom: 0.75rem;">ECG Interpretation</p>
+                    <ul style="text-align: left;">
+                        <li>ECG Basics</li>
+                        <li>Arrhythmia ID</li>
+                        <li>ACS Patterns</li>
+                        <li>Clinical Cases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Who Can Join -->
+    <div class="slide">
+        <div class="slide-content theme-dark col center">
+            <h2 class="text-accent mb-8">Who Can Participate?</h2>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <div class="icon-large">🎓</div>
+                    <h3 style="font-size: 1.5rem; color: #f1f5f9; margin-bottom: 0.5rem;">Medical Students</h3>
+                    <p style="color: #cbd5e1; font-size: 1rem;">Year 1 to Year 6</p>
+                </div>
+                <div style="text-align: center;">
+                    <div class="icon-large">👨‍⚕️</div>
+                    <h3 style="font-size: 1.5rem; color: #f1f5f9; margin-bottom: 0.5rem;">Healthcare Professionals</h3>
+                    <p style="color: #cbd5e1; font-size: 1rem;">Interns & Junior Residents</p>
+                </div>
+            </div>
+            <p class="text-success mt-8" style="font-size: 1.1rem;">✓ No Prerequisites Required</p>
+            <p class="text-success" style="font-size: 1rem; margin-top: 0.5rem;">✓ All Participants Welcome</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: What You Get -->
+    <div class="slide">
+        <div class="slide-content theme-dark-alt col">
+            <h2 class="text-accent mb-8">What You'll Receive</h2>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; max-width: 800px; margin: 0 auto;">
+                <div class="feature-box">
+                    <p><strong>📜 International Certification</strong></p>
+                    <p style="margin-top: 0.5rem;">BLS/ALS/ECG credentials recognized worldwide</p>
+                </div>
+                <div class="feature-box">
+                    <p><strong>💼 Professional Certificate</strong></p>
+                    <p style="margin-top: 0.5rem;">Boost your CV and career advancement</p>
+                </div>
+                <div class="feature-box">
+                    <p><strong>🎯 Emergency Skills</strong></p>
+                    <p style="margin-top: 0.5rem;">Practical, life-saving medical knowledge</p>
+                </div>
+                <div class="feature-box">
+                    <p><strong>📚 Study Materials</strong></p>
+                    <p style="margin-top: 0.5rem;">Reference guides & learning resources</p>
+                </div>
+            </div>
+            <p class="text-muted mt-6" style="font-size: 0.9rem;">+ Networking with Medical Professionals</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Important Details -->
+    <div class="slide">
+        <div class="slide-content theme-dark col center">
+            <h2 class="text-accent mb-8">Workshop Details</h2>
+            <div style="background-color: #1e293b; padding: 3rem; width: 90%; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);">
+                <div class="mb-6">
+                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">📍 Location</h3>
+                    <p style="color: #cbd5e1; font-size: 1.25rem;">Siberian State Medical University</p>
+                </div>
+                <div class="mb-6">
+                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">⏰ Schedule</h3>
+                    <p style="color: #cbd5e1; font-size: 1.25rem;">Date & Time To Be Announced</p>
+                </div>
+                <div>
+                    <h3 style="color: #38bdf8; font-size: 1.5rem; margin-bottom: 0.75rem;">💰 Cost</h3>
+                    <p style="color: #38bdf8; font-size: 1.5rem; font-weight: 600;">100% FREE FOR ALL STUDENTS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Call to Action -->
+    <div class="slide">
+        <div class="slide-content theme-accent col center">
+            <h1 style="margin-bottom: 2rem;">Stay Tuned!</h1>
+            <div class="divider" style="background-color: #ffffff; margin-bottom: 2rem;"></div>
+            <h2 style="color: #ffffff; margin-bottom: 2rem;">Updates Coming Soon</h2>
+            <ul style="text-align: center; list-style: none; padding: 0; margin-bottom: 2rem;">
+                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📢 Follow Official SibMed Channels</li>
+                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📧 Check Your Email for Announcements</li>
+                <li style="color: #ffffff; margin: 1rem 0; font-size: 1.125rem;">📱 Share with Your Classmates</li>
+            </ul>
+            <p class="text-lg" style="color: #ffffff; margin-top: 2rem;">Don't Miss This Opportunity!</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: Contact & Partners -->
+    <div class="slide">
+        <div class="slide-content theme-dark col center">
+            <h2 class="text-accent mb-8">Organized By</h2>
+            <div style="text-align: center; margin: 2rem 0;">
+                <h3 style="color: #f1f5f9; font-size: 1.75rem; margin-bottom: 1.5rem;">Siberian State Medical University</h3>
+                <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 0.5rem;">In Partnership with</p>
+                <h3 style="color: #38bdf8; font-size: 1.5rem;">Rus Overseas</h3>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 1rem;">Authorized Medical Education Partner</p>
+            </div>
+            <div class="divider" style="margin-top: 2rem;"></div>
+            <p class="text-muted mt-6" style="font-size: 0.95rem;">For more information, contact your academic department</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">10</span>
+    </div>
+
+    <div class="nav-container">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">❮</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">❯</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.style.display = 'none');
+            
+            if (n >= totalSlides) currentSlide = totalSlides - 1;
+            if (n < 0) currentSlide = 0;
+            
+            slides[currentSlide].style.display = 'flex';
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+
+</body>
+</html>
